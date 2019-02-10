@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 '''
 Revature is building a new API! This API contains functions for validating data, 
@@ -38,7 +38,13 @@ Happy Scripting!
 Use the main function for testing purposes and to show me results for all functions.
 '''
 def main():
-
+    print(reverse(reverse('reverse')))
+    print(acronym('Red Orange Yellow Green Blue Indigo Violet'))
+    print(whichTriangle(3,4,5) + whichTriangle(3, 4, 4) + whichTriangle(3,3,3))
+    print(scrabble('cabbage'))
+    print(list(map(armstrong, [9, 10, 153, 154])))
+    print(pangram('The quick brown fox jumps over the lazy dog.'))
+    #print(rotate('The quick brown fox jumps over the lazy dog.',))
 '''
 1. Reverse a String. Example: reverse("example"); -> "elpmaxe"
 
@@ -50,7 +56,8 @@ param: str
 return: str
 '''
 def reverse(string):
-
+    return "".join(string[i] for i in range(len(string)-1,-1, -1))
+        
 '''
 2. Convert a phrase to its acronym. Techies love their TLA (Three Letter
 Acronyms)! Help generate some jargon by writing a program that converts a
@@ -60,6 +67,7 @@ param: str
 return: str
 '''
 def acronym(phrase):
+    return "".join(x[0] for x in phrase.split())
 
 '''
 3. Determine if a triangle is equilateral, isosceles, or scalene. An
@@ -73,7 +81,10 @@ param: float, float, float
 return: str -> 'equilateral', 'isoceles', 'scalene'
 '''
 def whichTriangle(sideOne, sideTwo, sideThree):
-
+    a,b,c = sorted([sideOne, sideTwo, sideThree])
+    if a == c: return 'equilateral'
+    if a == b or b == c: return 'isoceles'
+    else: return 'scalene'
 
 '''
 4. Given a word, compute the scrabble score for that word.
@@ -91,7 +102,16 @@ param: str
 return: int
 '''
 def scrabble(word):
-
+    scrab = {
+        **dict.fromkeys('A, E, I, O, U, L, N, R, S, T'.split(', '), 1),
+        **dict.fromkeys(['D', 'G'], 2),
+        **dict.fromkeys('B, C, M, P'.split(', '),  3),
+        **dict.fromkeys('F, H, V, W, Y'.split(', '),  4),
+        **dict.fromkeys(['K'], 5),
+        **dict.fromkeys(['J', 'X'], 8),
+        **dict.fromkeys(['Q', 'Z'], 10)
+    }
+    return sum(scrab[c.upper()] for c in word)
 '''
 5. An Armstrong number is a number that is the sum of its own digits each
 raised to the power of the number of digits.
@@ -108,6 +128,9 @@ param: int
 return: bool
 '''
 def armstrong(number):
+    
+    digits = tuple(map(int, str(number)))
+    return sum(d**len(digits) for d in digits) == number
 
 '''
 6. Compute the prime factors of a given natural number.
@@ -119,7 +142,8 @@ Note that 1 is not a prime number.
 param: int
 return: list
 '''
-def primeFactors(number)
+def primeFactors(number):
+    pass
 
 '''
 7. Determine if a sentence is a pangram. A pangram (Greek: παν γράμμα, pan
@@ -135,6 +159,10 @@ param: str
 return: bool
 '''
 def pangram(sentence):
+    from string import ascii_lowercase
+    allletters = set(ascii_lowercase)
+    sent_set = set(sentence.lower())
+    return len(allletters - sent_set) == 0
 
 '''
 8. Sort list of integers.
@@ -148,7 +176,7 @@ param: list
 return: list
 '''
 def sort(numbers):
-
+    pass
 '''
 9. Create an implementation of the rotational cipher, also sometimes called
 the Caesar cipher.
@@ -179,6 +207,9 @@ param: int, str
 return: str
 '''
 def rotate(key, string):
+    from string import ascii_lowercase as au, ascii_uppercase as al
+    base_lower, base_upper = ord(al[0]), ord(au[0])
+    return ''.join(al[(ord(c) - base_lower + key) % 26] if c.islower() else au[(ord(c) - base_upper + key)% 26] for c in string)
 
 '''
 10. Take 10 numbers as input from the user and store all the even numbers in a file called even.txt and
@@ -188,6 +219,6 @@ param: none, from the keyboard
 return: nothing
 '''
 def evenAndOdds():
-
-if __name__ == "__main__"
+    pass
+if __name__ == "__main__":
     main()
