@@ -60,7 +60,7 @@ param: str
 return: str
 '''
 def reverse(string):
-    return "".join(string[i] for i in range(len(string)-1,-1, -1))
+    return string[::-1] #"".join(string[i] for i in range(len(string)-1,-1, -1))
         
 '''
 2. Convert a phrase to its acronym. Techies love their TLA (Three Letter
@@ -133,7 +133,7 @@ return: bool
 '''
 def armstrong(number):
     
-    digits = tuple(map(int, str(number)))
+    digits = map(int, str(number))
     return sum(d**len(digits) for d in digits) == number
 
 '''
