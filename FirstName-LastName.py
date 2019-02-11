@@ -44,7 +44,11 @@ def main():
     print(scrabble('cabbage'))
     print(list(map(armstrong, [9, 10, 153, 154])))
     print(pangram('The quick brown fox jumps over the lazy dog.'))
-    #print(rotate('The quick brown fox jumps over the lazy dog.',))
+    print(rotate(13, 'Gur dhvpx oebja sbk whzcf bire gur ynml qbt.'))
+    print(sort([2,4,5,1,3,1]))
+    print(primeFactors(12))
+    evenAndOdds()
+    
 '''
 1. Reverse a String. Example: reverse("example"); -> "elpmaxe"
 
@@ -143,7 +147,17 @@ param: int
 return: list
 '''
 def primeFactors(number):
-    pass
+    from math import sqrt
+    primefactors = []
+    for i in [2] + list(range(3,int(number//2)+1,2)):
+        prime = True
+        for j in range(2,int(sqrt(i))+1):
+            if i%j == 0:
+                prime = False
+                break
+        if prime and number%i == 0:
+            primefactors.append(i)
+    return primefactors
 
 '''
 7. Determine if a sentence is a pangram. A pangram (Greek: παν γράμμα, pan
@@ -176,7 +190,8 @@ param: list
 return: list
 '''
 def sort(numbers):
-    pass
+    # fun little O(n^3) algorithm
+    return [numbers.pop(numbers.index((min(numbers)))) for i in range(len(numbers))]
 '''
 9. Create an implementation of the rotational cipher, also sometimes called
 the Caesar cipher.
@@ -208,8 +223,11 @@ return: str
 '''
 def rotate(key, string):
     from string import ascii_lowercase as au, ascii_uppercase as al
-    base_lower, base_upper = ord(al[0]), ord(au[0])
-    return ''.join(al[(ord(c) - base_lower + key) % 26] if c.islower() else au[(ord(c) - base_upper + key)% 26] for c in string)
+    au_shifted = au[key:] + au[:key]
+    al_shifted = al[key:] + al[:key]
+    shift = dict(zip(au+al, au_shifted+al_shifted))
+    return ''.join(shift[c] if c in shift else c for c in string)
+    
 
 '''
 10. Take 10 numbers as input from the user and store all the even numbers in a file called even.txt and
@@ -219,6 +237,12 @@ param: none, from the keyboard
 return: nothing
 '''
 def evenAndOdds():
-    pass
+    import sys, io
+    with open('even.txt', 'w') as e, open('odd.txt', 'w') as o:
+        for i in range(10):
+            num = input('Number %d: ' % (i+1))
+            f = e if int(num)%2==0 else o
+            f.write(str(num) + '\n')
+
 if __name__ == "__main__":
     main()
